@@ -70,17 +70,12 @@ class TestOrder:
         main_page = MainPage(driver)
         main_page.open()
 
-        # Запоминаем текущее окно
         main_window = main_page.get_current_window_handle()
 
-        # Кликаем на логотип Яндекса
         main_page.click_yandex_logo()
 
-        # Переключаемся на новое окно
         main_page.switch_to_new_window(main_window)
 
-        # Ждем загрузки страницы Дзен
         main_page.wait_for_page_load("dzen.ru")
 
-        # Проверяем, что URL содержит dzen.ru
         assert "dzen.ru" in driver.current_url

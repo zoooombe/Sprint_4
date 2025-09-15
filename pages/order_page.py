@@ -5,7 +5,6 @@ from .base_page import BasePage
 
 
 class OrderPage(BasePage):
-    # Первая страница заказа
     NAME_INPUT = (By.XPATH, "//input[@placeholder='* Имя']")
     SURNAME_INPUT = (By.XPATH, "//input[@placeholder='* Фамилия']")
     ADDRESS_INPUT = (By.XPATH, "//input[@placeholder='* Адрес: куда привезти заказ']")
@@ -14,7 +13,6 @@ class OrderPage(BasePage):
     PHONE_INPUT = (By.XPATH, "//input[@placeholder='* Телефон: на него позвонит курьер']")
     NEXT_BUTTON = (By.XPATH, "//button[text()='Далее']")
 
-    # Вторая страница заказа
     DATE_INPUT = (By.XPATH, "//input[@placeholder='* Когда привезти самокат']")
     RENTAL_PERIOD_DROPDOWN = (By.CLASS_NAME, "Dropdown-placeholder")
     RENTAL_PERIOD_OPTION = (By.XPATH, "//div[text()='{}']")
@@ -30,7 +28,6 @@ class OrderPage(BasePage):
         self.wait_for_element(self.SURNAME_INPUT, timeout=15).send_keys(surname)
         self.wait_for_element(self.ADDRESS_INPUT, timeout=15).send_keys(address)
 
-        # Выбор станции метро
         metro_dropdown = self.wait_for_clickable(self.METRO_STATION_DROPDOWN, timeout=15)
         metro_dropdown.click()
         metro_option = self.wait_for_clickable(
@@ -41,11 +38,9 @@ class OrderPage(BasePage):
 
         self.wait_for_element(self.PHONE_INPUT, timeout=15).send_keys(phone)
 
-        # Кликаем кнопку "Далее" с помощью JavaScript
         next_button = self.wait_for_clickable(self.NEXT_BUTTON, timeout=15)
         self.driver.execute_script("arguments[0].click();", next_button)
 
-        # Ждем загрузки второй страницы
         self.wait_for_element(self.DATE_INPUT, timeout=15)
 
     @allure.step("Заполнить информацию об аренде")
@@ -56,10 +51,8 @@ class OrderPage(BasePage):
         date_input.clear()
         date_input.send_keys(date)
 
-        # Нажимаем Enter для подтверждения даты и закрытия календаря
         date_input.send_keys(Keys.ENTER)
 
-        # Выбор срока аренды
         period_dropdown = self.wait_for_clickable(self.RENTAL_PERIOD_DROPDOWN, timeout=15)
         period_dropdown.click()
 
@@ -69,25 +62,19 @@ class OrderPage(BasePage):
         )
         period_option.click()
 
-        # Выбор цвета
         color_locator = (self.COLOR_CHECKBOX[0], self.COLOR_CHECKBOX[1].format(color))
         color_checkbox = self.wait_for_clickable(color_locator, timeout=15)
         color_checkbox.click()
 
-        # Комментарий
         self.wait_for_element(self.COMMENT_INPUT, timeout=15).send_keys(comment)
 
-        # Прокручиваем к кнопке "Заказать"
         order_button = self.wait_for_clickable(self.ORDER_BUTTON, timeout=15)
         self.scroll_to_element(order_button)
 
-        # Ждем, пока кнопка станет полностью видимой и кликабельной
         self.wait_for_clickable(self.ORDER_BUTTON, timeout=5)
 
-        # Кликаем кнопку "Заказать"
         self.driver.execute_script("arguments[0].click();", order_button)
 
-        # Подтверждение
         confirm_button = self.wait_for_clickable(self.CONFIRM_BUTTON, timeout=15)
         self.driver.execute_script("arguments[0].click();", confirm_button)
 

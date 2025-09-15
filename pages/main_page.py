@@ -4,15 +4,12 @@ from .base_page import BasePage
 
 
 class MainPage(BasePage):
-    # Локаторы для вопросов
     QUESTION_LOCATOR = (By.CSS_SELECTOR, "[id^='accordion__heading-']")
     ANSWER_LOCATOR = (By.CSS_SELECTOR, "[id^='accordion__panel-']")
 
-    # Локаторы для кнопок заказа
     ORDER_BUTTON_TOP = (By.CSS_SELECTOR, ".Button_Button__ra12g")
     ORDER_BUTTON_BOTTOM = (By.XPATH, "//div[@class='Home_FinishButton__1_cWm']/button")
 
-    # Локаторы для логотипов
     SCOOTER_LOGO = (By.CLASS_NAME, "Header_LogoScooter__3lsAR")
     YANDEX_LOGO = (By.CLASS_NAME, "Header_LogoYandex__3TSOI")
 
@@ -32,14 +29,11 @@ class MainPage(BasePage):
 
     @allure.step("Кликнуть на нижнюю кнопку заказа")
     def click_order_button_bottom(self):
-        # Прокручиваем к нижней кнопке заказа
         button = self.wait_for_element(self.ORDER_BUTTON_BOTTOM)
         self.scroll_to_element(button)
 
-        # Ждем, пока кнопка станет полностью видимой и кликабельной
         self.wait_for_clickable(self.ORDER_BUTTON_BOTTOM, timeout=5)
 
-        # Кликаем с помощью JavaScript для избежания проблем с перекрытием
         self.driver.execute_script("arguments[0].click();", button)
 
     @allure.step("Кликнуть на логотип Самоката")

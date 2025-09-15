@@ -24,11 +24,9 @@ class TestQuestions:
         main_page = MainPage(driver)
         main_page.open()
 
-        # Прокручиваем к разделу с вопросами
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight / 2);")
 
         main_page.click_question(question_index)
 
-        # Используем явное ожидание вместо time.sleep
         answer_text = main_page.get_answer_text(question_index)
         assert answer_text == expected_answer
